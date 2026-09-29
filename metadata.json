@@ -1,0 +1,6 @@
+{
+  "name": "EcoIA — Monitoramento de Energia Elétrica",
+  "description": "Plataforma Inteligente para Monitoramento, Metas, Custos Estimados e Detecção de Anomalias no Consumo de Energia Elétrica.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
