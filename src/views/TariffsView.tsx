@@ -131,7 +131,7 @@ export const TariffsView: React.FC = () => {
       </div>
 
       {/* Tariffs Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         {tariffs.map((t) => {
           const targetName =
             t.scope === 'ORGANIZACAO'
@@ -143,40 +143,42 @@ export const TariffsView: React.FC = () => {
           return (
             <div
               key={t.id}
-              className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xs flex flex-col justify-between space-y-4"
+              className="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xs flex flex-col justify-between space-y-4 min-w-0"
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-amber-400">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-amber-400 shrink-0">
                       <Coins className="w-5 h-5" />
                     </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white">{t.name}</h3>
-                      <span className="text-[10px] font-mono text-emerald-400 uppercase">
+                    <div className="min-w-0">
+                      <h3 className="text-base font-bold text-white truncate" title={t.name}>{t.name}</h3>
+                      <span className="text-[10px] font-mono text-emerald-400 uppercase truncate block">
                         Escopo: {t.scope} ({targetName})
                       </span>
                     </div>
                   </div>
-                  <StatusBadge status={t.active ? 'ATIVO' : 'INATIVO'} />
+                  <div className="shrink-0">
+                    <StatusBadge status={t.active ? 'ATIVO' : 'INATIVO'} />
+                  </div>
                 </div>
 
-                <p className="text-xs text-slate-400 leading-relaxed mt-2">
+                <p className="text-xs text-slate-400 leading-relaxed mt-2 line-clamp-2">
                   {t.notes || 'Tarifa de fornecimento de energia elétrica regulamentada.'}
                 </p>
 
                 {/* Price Display */}
-                <div className="mt-4 p-4 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono">
+                <div className="mt-4 p-4 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono min-w-0">
                   <span className="text-[11px] font-sans text-slate-400 block mb-1">
                     Custo Unitário da Energia:
                   </span>
-                  <div className="text-2xl font-bold text-emerald-400">
+                  <div className="text-xl sm:text-2xl font-bold text-emerald-400 truncate">
                     R$ {t.ratePerKwh.toFixed(2)}
                     <span className="text-xs text-slate-400 font-sans ml-1">/ kWh</span>
                   </div>
 
                   {t.demandRate && (
-                    <div className="mt-1 text-[11px] text-slate-400">
+                    <div className="mt-1 text-[11px] text-slate-400 truncate">
                       Demanda: R$ {t.demandRate.toFixed(2)} / kW
                     </div>
                   )}
@@ -212,13 +214,22 @@ export const TariffsView: React.FC = () => {
 
       {/* Modal: Cadastro / Edição de Tarifa */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6">
-            <h3 className="text-base font-bold text-white mb-4">
-              {editingTariff ? 'Editar Tarifa de Energia' : 'Cadastrar Nova Tarifa'}
-            </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 my-auto max-h-[90vh] overflow-y-auto text-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <h3 className="text-base font-bold text-white">
+                {editingTariff ? 'Editar Tarifa de Energia' : 'Cadastrar Nova Tarifa'}
+              </h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Fechar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
-            <form onSubmit={handleSave} className="space-y-3 text-xs">
+            <form onSubmit={handleSave} className="space-y-3">
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Nome da Tarifa / Contrato *</label>
                 <input
@@ -227,7 +238,7 @@ export const TariffsView: React.FC = () => {
                   placeholder="Ex: Tarifa Média Tensão 2026"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -241,7 +252,7 @@ export const TariffsView: React.FC = () => {
                     if (s === 'UNIDADE') setTargetEntityId(units[0]?.id || '');
                     if (s === 'PONTO') setTargetEntityId(points[0]?.id || '');
                   }}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   <option value="ORGANIZACAO">Toda a Organização</option>
                   <option value="UNIDADE">Unidade Específica</option>
@@ -255,7 +266,7 @@ export const TariffsView: React.FC = () => {
                   <select
                     value={targetEntityId}
                     onChange={(e) => setTargetEntityId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   >
                     {units.map((u) => (
                       <option key={u.id} value={u.id}>
@@ -272,7 +283,7 @@ export const TariffsView: React.FC = () => {
                   <select
                     value={targetEntityId}
                     onChange={(e) => setTargetEntityId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   >
                     {points.map((p) => (
                       <option key={p.id} value={p.id}>
@@ -293,7 +304,7 @@ export const TariffsView: React.FC = () => {
                     required
                     value={ratePerKwh}
                     onChange={(e) => setRatePerKwh(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
                 <div>
@@ -305,7 +316,7 @@ export const TariffsView: React.FC = () => {
                     placeholder="Opcional"
                     value={demandRate}
                     onChange={(e) => setDemandRate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
@@ -317,7 +328,7 @@ export const TariffsView: React.FC = () => {
                     type="date"
                     value={effectiveFrom}
                     onChange={(e) => setEffectiveFrom(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
                 <div>
@@ -326,7 +337,7 @@ export const TariffsView: React.FC = () => {
                     type="date"
                     value={effectiveTo}
                     onChange={(e) => setEffectiveTo(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
@@ -337,7 +348,7 @@ export const TariffsView: React.FC = () => {
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -345,13 +356,13 @@ export const TariffsView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold"
+                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors cursor-pointer shadow-xs"
                 >
                   Salvar Tarifa
                 </button>

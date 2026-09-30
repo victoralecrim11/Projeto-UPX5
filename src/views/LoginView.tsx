@@ -121,7 +121,7 @@ export const LoginView: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-3 py-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg pl-9 pr-3 py-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
             </div>
@@ -136,12 +136,13 @@ export const LoginView: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-10 py-2.5 text-white focus:outline-hidden focus:border-emerald-500"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg pl-9 pr-10 py-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-slate-500 hover:text-slate-300"
+                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-100 p-0.5 rounded cursor-pointer"
+                  aria-label={showPassword ? 'Ocultar senha' : 'Exibir senha'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -150,23 +151,23 @@ export const LoginView: React.FC = () => {
 
             {/* Checkboxes */}
             <div className="flex flex-col gap-2 pt-1 text-[11px]">
-              <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <label className="flex items-center gap-2 text-slate-300 hover:text-white cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded bg-slate-950 border-slate-800 text-emerald-500"
+                  className="rounded bg-slate-950 border-slate-800 text-emerald-500 focus:ring-emerald-500"
                 />
                 <span>Lembrar meu acesso neste dispositivo</span>
               </label>
 
               {/* 2FA Demo checkbox (RF-002) */}
-              <label className="flex items-center gap-2 text-emerald-400 font-medium cursor-pointer">
+              <label className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-medium cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={simulate2FA}
                   onChange={(e) => setSimulate2FA(e.target.checked)}
-                  className="rounded bg-slate-950 border-slate-800 text-emerald-500"
+                  className="rounded bg-slate-950 border-slate-800 text-emerald-500 focus:ring-emerald-500"
                 />
                 <span>Simular etapa de autenticação em dois fatores (2FA)</span>
               </label>
@@ -174,7 +175,7 @@ export const LoginView: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow-sm shadow-emerald-950/50"
+              className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow-sm shadow-emerald-950/50 cursor-pointer"
             >
               <span>Entrar na Plataforma</span>
               <ArrowRight className="w-4 h-4" />
@@ -192,10 +193,10 @@ export const LoginView: React.FC = () => {
                   key={acc.email}
                   type="button"
                   onClick={() => handleSelectAccount(acc.email)}
-                  className={`p-2.5 rounded-lg border text-left text-xs transition-all ${
+                  className={`p-2.5 rounded-lg border text-left text-xs transition-all cursor-pointer ${
                     email === acc.email
                       ? 'bg-emerald-950/70 border-emerald-700/80 text-emerald-200'
-                      : 'bg-slate-950/60 border-slate-800/80 text-slate-300 hover:bg-slate-800'
+                      : 'bg-slate-950/60 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">

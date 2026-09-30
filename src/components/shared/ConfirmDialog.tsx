@@ -41,7 +41,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           </div>
           <button
             onClick={onCancel}
-            className="text-slate-500 hover:text-slate-300 transition-colors p-1 rounded"
+            className="text-slate-400 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-slate-800 cursor-pointer"
             aria-label="Fechar"
           >
             <X className="w-4 h-4" />
@@ -52,14 +52,14 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
+            className="px-4 py-2 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors cursor-pointer"
           >
             {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className={`px-4 py-2 text-xs font-semibold rounded-lg text-white transition-colors ${
+            className={`px-4 py-2 text-xs font-semibold rounded-lg text-white transition-colors cursor-pointer shadow-xs ${
               isDestructive
                 ? 'bg-red-600 hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400'
                 : 'bg-emerald-600 hover:bg-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-400'

@@ -160,6 +160,18 @@ export function calculateEstimatedCost(
   };
 }
 
+export function formatNumber(
+  value: number | undefined | null,
+  minDecimals: number = 0,
+  maxDecimals: number = 1
+): string {
+  if (value === undefined || value === null || isNaN(value)) return '0';
+  return new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: minDecimals,
+    maximumFractionDigits: maxDecimals,
+  }).format(value);
+}
+
 /**
  * Formats a kWh number into readable pt-BR representation
  */

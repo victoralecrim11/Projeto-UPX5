@@ -102,32 +102,34 @@ export const GoalsView: React.FC = () => {
           return (
             <div
               key={goal.id}
-              className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xs flex flex-col justify-between space-y-4"
+              className="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xs flex flex-col justify-between space-y-4 min-w-0"
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block font-semibold">
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block font-semibold truncate">
                       Escopo: {goal.scope}
                     </span>
-                    <h3 className="text-base font-bold text-white mt-0.5">{goal.name}</h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className="text-base font-bold text-white mt-0.5 truncate">{goal.name}</h3>
+                    <p className="text-xs text-slate-400 mt-1 truncate">
                       Alvo: <span className="text-slate-200 font-semibold">{targetEntityName}</span> · {goal.period}
                     </p>
                   </div>
-                  <StatusBadge status={dynamicStatus} />
+                  <div className="shrink-0">
+                    <StatusBadge status={dynamicStatus} />
+                  </div>
                 </div>
 
                 {/* Progress Bar & Numeric comparison */}
-                <div className="mt-5 p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-                  <div className="flex items-baseline justify-between font-mono tabular-nums">
-                    <div>
+                <div className="mt-5 p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 min-w-0">
+                  <div className="flex items-baseline justify-between font-mono tabular-nums gap-2 flex-wrap">
+                    <div className="min-w-0">
                       <span className="text-xs text-slate-400 font-sans block">Consumo Registrado:</span>
-                      <span className="text-xl font-bold text-white">{formatKwh(currentKwh)}</span>
+                      <span className="text-lg sm:text-xl font-bold text-white truncate block">{formatKwh(currentKwh)}</span>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right min-w-0">
                       <span className="text-xs text-slate-400 font-sans block">Meta Limite:</span>
-                      <span className="text-sm font-semibold text-slate-300">
+                      <span className="text-sm font-semibold text-slate-300 truncate block">
                         {formatKwh(goal.targetKwh)}
                       </span>
                     </div>
@@ -146,14 +148,14 @@ export const GoalsView: React.FC = () => {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-slate-400">{percent.toFixed(1)}% utilizado</span>
+                  <div className="flex items-center justify-between text-xs font-mono gap-1 flex-wrap">
+                    <span className="text-slate-400 shrink-0">{percent.toFixed(1)}% utilizado</span>
                     {percent > 100 ? (
-                      <span className="text-red-400 font-semibold">
+                      <span className="text-red-400 font-semibold truncate">
                         +{formatKwh(currentKwh - goal.targetKwh)} acima
                       </span>
                     ) : (
-                      <span className="text-emerald-400 font-semibold">
+                      <span className="text-emerald-400 font-semibold truncate">
                         {formatKwh(goal.targetKwh - currentKwh)} restantes
                       </span>
                     )}
@@ -172,11 +174,20 @@ export const GoalsView: React.FC = () => {
 
       {/* Modal: Cadastrar Meta */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6">
-            <h3 className="text-base font-bold text-white mb-4">Cadastrar Meta de Energia</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 my-auto max-h-[90vh] overflow-y-auto text-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <h3 className="text-base font-bold text-white">Cadastrar Meta de Energia</h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Fechar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
-            <form onSubmit={handleSaveGoal} className="space-y-3 text-xs">
+            <form onSubmit={handleSaveGoal} className="space-y-3">
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Título da Meta *</label>
                 <input
@@ -185,7 +196,7 @@ export const GoalsView: React.FC = () => {
                   placeholder="Ex: Meta Q4 - Climatização"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -199,7 +210,7 @@ export const GoalsView: React.FC = () => {
                     if (s === 'UNIDADE') setTargetEntityId(units[0]?.id || '');
                     if (s === 'PONTO') setTargetEntityId(points[0]?.id || '');
                   }}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   <option value="ORGANIZACAO">Toda a Organização</option>
                   <option value="UNIDADE">Unidade Específica</option>
@@ -213,7 +224,7 @@ export const GoalsView: React.FC = () => {
                   <select
                     value={targetEntityId}
                     onChange={(e) => setTargetEntityId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   >
                     {units.map((u) => (
                       <option key={u.id} value={u.id}>
@@ -230,7 +241,7 @@ export const GoalsView: React.FC = () => {
                   <select
                     value={targetEntityId}
                     onChange={(e) => setTargetEntityId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   >
                     {points.map((p) => (
                       <option key={p.id} value={p.id}>
@@ -250,7 +261,7 @@ export const GoalsView: React.FC = () => {
                   required
                   value={targetKwh}
                   onChange={(e) => setTargetKwh(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -261,7 +272,7 @@ export const GoalsView: React.FC = () => {
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
                 <div>
@@ -270,7 +281,7 @@ export const GoalsView: React.FC = () => {
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
@@ -279,13 +290,13 @@ export const GoalsView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold"
+                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors cursor-pointer shadow-xs"
                 >
                   Salvar Meta
                 </button>

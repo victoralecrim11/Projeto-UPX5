@@ -81,7 +81,7 @@ export const SettingsView: React.FC = () => {
                   required
                   value={medium}
                   onChange={(e) => setMedium(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-base focus:border-emerald-500"
+                  className="w-full bg-slate-900 border border-slate-700 hover:border-slate-600 rounded-lg p-2 text-white font-bold text-base focus:border-emerald-500 focus:outline-hidden transition-colors"
                 />
                 <span className="text-slate-400 font-bold">%</span>
               </div>
@@ -103,7 +103,7 @@ export const SettingsView: React.FC = () => {
                   required
                   value={high}
                   onChange={(e) => setHigh(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-base focus:border-red-500"
+                  className="w-full bg-slate-900 border border-slate-700 hover:border-slate-600 rounded-lg p-2 text-white font-bold text-base focus:border-red-500 focus:outline-hidden transition-colors"
                 />
                 <span className="text-slate-400 font-bold">%</span>
               </div>
@@ -125,7 +125,7 @@ export const SettingsView: React.FC = () => {
                   required
                   value={days}
                   onChange={(e) => setDays(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-base focus:border-emerald-500"
+                  className="w-full bg-slate-900 border border-slate-700 hover:border-slate-600 rounded-lg p-2 text-white font-bold text-base focus:border-emerald-500 focus:outline-hidden transition-colors"
                 />
                 <span className="text-slate-400 font-bold">dias</span>
               </div>
@@ -135,15 +135,15 @@ export const SettingsView: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-2 flex items-center justify-between">
+          <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-              <Info className="w-3.5 h-3.5" />
+              <Info className="w-3.5 h-3.5 shrink-0" />
               <span>A alteração passa a valer para todas as análises subsequentes.</span>
             </div>
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors cursor-pointer shadow-xs"
             >
               {isSaved ? (
                 <>

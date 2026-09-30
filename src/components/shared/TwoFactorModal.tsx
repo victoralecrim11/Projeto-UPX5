@@ -44,7 +44,7 @@ export const TwoFactorModal: React.FC<TwoFactorModalProps> = ({
       <div className="relative w-full max-w-sm bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 text-center">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors p-1"
+          className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-slate-800 cursor-pointer"
           aria-label="Fechar"
         >
           <X className="w-4 h-4" />
@@ -83,7 +83,7 @@ export const TwoFactorModal: React.FC<TwoFactorModalProps> = ({
         <button
           type="button"
           onClick={handleVerify}
-          className="w-full py-2.5 px-4 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="w-full py-2.5 px-4 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400 cursor-pointer shadow-xs"
         >
           Validar e Prosseguir
         </button>

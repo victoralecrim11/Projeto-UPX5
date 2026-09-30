@@ -209,7 +209,7 @@ export const ReportsView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors shadow-xs cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 text-emerald-400" />
             <span>Exportar CSV</span>
@@ -217,7 +217,7 @@ export const ReportsView: React.FC = () => {
 
           <button
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shadow-xs cursor-pointer"
           >
             <Printer className="w-3.5 h-3.5" />
             <span>Imprimir / PDF</span>
@@ -237,7 +237,7 @@ export const ReportsView: React.FC = () => {
           <button
             key={rep.id}
             onClick={() => setActiveReport(rep.id as ReportType)}
-            className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-3 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
               activeReport === rep.id
                 ? 'bg-emerald-600 text-white font-semibold shadow-xs'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
@@ -280,31 +280,31 @@ export const ReportsView: React.FC = () => {
         </div>
 
         {/* Executive Summary Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[11px] text-slate-400 block font-sans">Consumo Consolidado:</span>
-            <span className="text-xl font-bold font-mono text-white tabular-nums">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 min-w-0">
+            <span className="text-[11px] text-slate-400 block font-sans truncate">Consumo Consolidado:</span>
+            <span className="text-lg sm:text-xl font-bold font-mono text-white tabular-nums truncate block">
               {formatKwh(summary.totalKwh)}
             </span>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[11px] text-slate-400 block font-sans">Média Diária:</span>
-            <span className="text-xl font-bold font-mono text-slate-300 tabular-nums">
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 min-w-0">
+            <span className="text-[11px] text-slate-400 block font-sans truncate">Média Diária:</span>
+            <span className="text-lg sm:text-xl font-bold font-mono text-slate-300 tabular-nums truncate block">
               {formatKwh(summary.avgDailyKwh)}
             </span>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[11px] text-slate-400 block font-sans">Gasto Estimado:</span>
-            <span className="text-xl font-bold font-mono text-emerald-400 tabular-nums">
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 min-w-0">
+            <span className="text-[11px] text-slate-400 block font-sans truncate">Gasto Estimado:</span>
+            <span className="text-lg sm:text-xl font-bold font-mono text-emerald-400 tabular-nums truncate block">
               {formatCurrency(summary.totalCost)}
             </span>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800">
-            <span className="text-[11px] text-slate-400 block font-sans">Alertas Registrados:</span>
-            <span className="text-xl font-bold font-mono text-red-400 tabular-nums">
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 min-w-0">
+            <span className="text-[11px] text-slate-400 block font-sans truncate">Alertas Registrados:</span>
+            <span className="text-base sm:text-lg font-bold font-mono text-red-400 tabular-nums truncate block">
               {summary.activeAlertsCount} abertos / {summary.treatedAlertsCount} tratados
             </span>
           </div>

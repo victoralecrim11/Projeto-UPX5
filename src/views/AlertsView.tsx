@@ -82,42 +82,42 @@ export const AlertsView: React.FC = () => {
 
       {/* KPI Counters */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Novos Alertas</span>
-            <AlertOctagon className="w-4 h-4 text-red-400" />
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900 border border-slate-800 min-w-0">
+          <div className="flex items-center justify-between text-xs text-slate-400 gap-1.5">
+            <span className="truncate">Novos Alertas</span>
+            <AlertOctagon className="w-4 h-4 text-red-400 shrink-0" />
           </div>
-          <div className="mt-2 text-2xl font-bold font-mono text-white tabular-nums">
+          <div className="mt-2 text-xl sm:text-2xl font-bold font-mono text-white tabular-nums truncate">
             {stats.novos}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Visualizados</span>
-            <Clock className="w-4 h-4 text-amber-400" />
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900 border border-slate-800 min-w-0">
+          <div className="flex items-center justify-between text-xs text-slate-400 gap-1.5">
+            <span className="truncate">Visualizados</span>
+            <Clock className="w-4 h-4 text-amber-400 shrink-0" />
           </div>
-          <div className="mt-2 text-2xl font-bold font-mono text-slate-200 tabular-nums">
+          <div className="mt-2 text-xl sm:text-2xl font-bold font-mono text-slate-200 tabular-nums truncate">
             {stats.visualizados}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Tratados</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900 border border-slate-800 min-w-0">
+          <div className="flex items-center justify-between text-xs text-slate-400 gap-1.5">
+            <span className="truncate">Tratados</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           </div>
-          <div className="mt-2 text-2xl font-bold font-mono text-emerald-400 tabular-nums">
+          <div className="mt-2 text-xl sm:text-2xl font-bold font-mono text-emerald-400 tabular-nums truncate">
             {stats.tratados}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Alta Criticidade Ativa</span>
-            <ShieldAlert className="w-4 h-4 text-red-400" />
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900 border border-slate-800 min-w-0">
+          <div className="flex items-center justify-between text-xs text-slate-400 gap-1.5">
+            <span className="truncate" title="Alta Criticidade Ativa">Alta Criticidade</span>
+            <ShieldAlert className="w-4 h-4 text-red-400 shrink-0" />
           </div>
-          <div className="mt-2 text-2xl font-bold font-mono text-red-400 tabular-nums">
+          <div className="mt-2 text-xl sm:text-2xl font-bold font-mono text-red-400 tabular-nums truncate">
             {stats.altos}
           </div>
         </div>
@@ -134,7 +134,7 @@ export const AlertsView: React.FC = () => {
               placeholder="Buscar por ponto, título..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-slate-200 focus:outline-hidden focus:border-emerald-500"
+              className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-slate-200 focus:outline-hidden focus:border-emerald-500 transition-colors"
             />
           </div>
 
@@ -142,7 +142,7 @@ export const AlertsView: React.FC = () => {
           <select
             value={filterCriticality}
             onChange={(e) => setFilterCriticality(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200"
+            className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-hidden focus:border-emerald-500 transition-colors"
           >
             <option value="ALL">Todas as Criticidades</option>
             <option value="ALTA">Alta Criticidade</option>
@@ -153,7 +153,7 @@ export const AlertsView: React.FC = () => {
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200"
+            className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-hidden focus:border-emerald-500 transition-colors"
           >
             <option value="ALL">Todos os Tipos</option>
             <option value="CONSUMO_EXCESSIVO">Consumo Excessivo</option>
@@ -164,7 +164,7 @@ export const AlertsView: React.FC = () => {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200"
+            className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-hidden focus:border-emerald-500 transition-colors"
           >
             <option value="ALL">Todos os Status</option>
             <option value="NOVO">Novo</option>

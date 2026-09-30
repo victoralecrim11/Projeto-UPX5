@@ -80,21 +80,21 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onToggleMobileMenu }) => {
 
   return (
     <>
-      <header className="sticky top-0 z-30 h-16 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-30 h-16 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-6 flex items-center justify-between gap-3 sm:gap-4">
         {/* Left: Mobile hamburger + Breadcrumbs */}
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
           <button
             onClick={onToggleMobileMenu}
-            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 transition-colors"
-            aria-label="Abrir menu lateral"
+            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500"
+            aria-label="Abrir menu lateral de navegação"
           >
             <Menu className="w-5 h-5" />
           </button>
 
           {/* Breadcrumb Trail */}
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs truncate">
-            <span className="font-semibold text-emerald-400">EcoIA</span>
-            <span className="text-slate-600">/</span>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 sm:gap-2 text-xs truncate">
+            <span className="font-semibold text-emerald-400 shrink-0">EcoIA</span>
+            <span className="text-slate-600 shrink-0">/</span>
             <span className="text-slate-300 font-medium truncate">
               {getBreadcrumbTitle(currentRoute)}
             </span>
@@ -102,17 +102,17 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onToggleMobileMenu }) => {
         </div>
 
         {/* Right: Actions, Role Switcher, Notifications, User */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* Organization badge */}
-          <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300">
+          <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 shadow-xs">
             <Building className="w-3.5 h-3.5 text-slate-400" />
-            <span className="truncate max-w-[160px]">{organization.name}</span>
+            <span className="truncate max-w-[160px] font-medium">{organization.name}</span>
           </div>
 
           {/* Demo Reset Button */}
           <button
             onClick={() => setIsResetConfirmOpen(true)}
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-slate-800 transition-colors"
+            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition-colors shadow-xs"
             title="Recarregar conjunto de dados de demonstração (fixtures)"
           >
             <RefreshCw className="w-3.5 h-3.5 text-emerald-400" />
@@ -123,13 +123,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onToggleMobileMenu }) => {
           <div className="relative">
             <button
               onClick={() => setIsRoleMenuOpen(!isRoleMenuOpen)}
-              className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-200 transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-xs text-slate-200 transition-colors shadow-xs"
               title="Alternar perfil de demonstração (RBAC)"
             >
-              <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <UserCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span className="hidden sm:inline font-semibold">Perfil:</span>
-              <span className="font-medium text-emerald-300">{currentUser?.role}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              <span className="font-semibold text-emerald-300">{currentUser?.role}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             </button>
 
             {isRoleMenuOpen && (
@@ -147,7 +147,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onToggleMobileMenu }) => {
                       switchUserRole(r.role);
                       setIsRoleMenuOpen(false);
                     }}
-                    className={`w-full text-left p-2 rounded-lg transition-colors flex flex-col gap-0.5 ${
+                    className={`w-full text-left p-2 rounded-lg transition-colors flex flex-col gap-0.5 cursor-pointer ${
                       currentUser?.role === r.role
                         ? 'bg-emerald-950/70 border border-emerald-800/60 text-emerald-200'
                         : 'hover:bg-slate-800/80 text-slate-300'
@@ -170,12 +170,12 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onToggleMobileMenu }) => {
           <div className="relative">
             <button
               onClick={() => setIsNotifOpen(!isNotifOpen)}
-              className="relative p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-colors"
+              className="relative p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 border border-transparent hover:border-slate-700 transition-colors cursor-pointer"
               aria-label="Abrir central de notificações"
             >
               <Bell className="w-4 h-4" />
               {unreadNotifs > 0 && (
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               )}
             </button>
 
@@ -188,7 +188,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onToggleMobileMenu }) => {
           {/* Logout */}
           <button
             onClick={logout}
-            className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors"
+            className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 border border-transparent hover:border-red-950/60 transition-colors cursor-pointer"
             title="Sair da sessão simulada"
             aria-label="Sair"
           >

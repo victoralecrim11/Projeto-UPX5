@@ -305,13 +305,14 @@ export const AlertDetailView: React.FC<{ alertId: string }> = ({ alertId }) => {
 
       {/* Modal de Tratamento do Alerta (Section 28) */}
       {isTreatModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 my-auto max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <h3 className="text-base font-bold text-white">Registrar Tratamento do Alerta</h3>
               <button
                 onClick={() => setIsTreatModalOpen(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Fechar"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -343,7 +344,7 @@ export const AlertDetailView: React.FC<{ alertId: string }> = ({ alertId }) => {
                 <select
                   value={treatmentAction}
                   onChange={(e) => setTreatmentAction(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   <option value="Inspeção física e verificação de cargas elétricas">
                     Inspeção física e verificação de cargas elétricas
@@ -373,7 +374,7 @@ export const AlertDetailView: React.FC<{ alertId: string }> = ({ alertId }) => {
                   placeholder="Ex: Realizada vistoria no bloco fabril. Identificado circuito auxiliar mantido acionado. Desligamento efetuado e conferência concluída."
                   value={treatmentObservation}
                   onChange={(e) => setTreatmentObservation(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:border-emerald-500"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -381,13 +382,13 @@ export const AlertDetailView: React.FC<{ alertId: string }> = ({ alertId }) => {
                 <button
                   type="button"
                   onClick={() => setIsTreatModalOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-500"
+                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors cursor-pointer shadow-xs"
                 >
                   Confirmar Tratamento
                 </button>

@@ -34,7 +34,7 @@ export const UnitsView: React.FC = () => {
       </div>
 
       {/* Grid of Units */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         {units.map((unit) => {
           const unitPoints = points.filter((p) => p.unitId === unit.id);
           const unitPointIds = unitPoints.map((p) => p.id);
@@ -56,52 +56,54 @@ export const UnitsView: React.FC = () => {
           return (
             <div
               key={unit.id}
-              className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-4 shadow-xs"
+              className="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-4 shadow-xs min-w-0"
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-teal-400">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-teal-400 shrink-0">
                       <Building2 className="w-5 h-5" />
                     </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white">{unit.name}</h3>
-                      <div className="flex items-center gap-1 text-[11px] text-slate-400">
-                        <MapPin className="w-3 h-3 text-slate-500" />
-                        <span>{unit.location}</span>
+                    <div className="min-w-0">
+                      <h3 className="text-base font-bold text-white truncate" title={unit.name}>{unit.name}</h3>
+                      <div className="flex items-center gap-1 text-[11px] text-slate-400 min-w-0">
+                        <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
+                        <span className="truncate">{unit.location}</span>
                       </div>
                     </div>
                   </div>
-                  <StatusBadge status={unit.status} />
+                  <div className="shrink-0">
+                    <StatusBadge status={unit.status} />
+                  </div>
                 </div>
 
-                <p className="text-xs text-slate-400 leading-relaxed mt-2">
+                <p className="text-xs text-slate-400 leading-relaxed mt-2 line-clamp-2">
                   {unit.description}
                 </p>
 
                 <div className="mt-3 pt-3 border-t border-slate-800 space-y-2 text-xs text-slate-300">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400 flex items-center gap-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-slate-400 flex items-center gap-1 shrink-0">
                       <User className="w-3.5 h-3.5" />
                       Responsável:
                     </span>
-                    <span className="font-semibold text-slate-200">{unit.manager}</span>
+                    <span className="font-semibold text-slate-200 truncate">{unit.manager}</span>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400 flex items-center gap-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-slate-400 flex items-center gap-1 shrink-0">
                       <Gauge className="w-3.5 h-3.5" />
                       Pontos de Medição:
                     </span>
-                    <span className="font-mono font-semibold text-white">
+                    <span className="font-mono font-semibold text-white shrink-0">
                       {unitPoints.length} ativos
                     </span>
                   </div>
 
                   {tariff && (
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-400">Tarifa Vigente:</span>
-                      <span className="font-mono text-emerald-400 font-semibold">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-400 shrink-0">Tarifa Vigente:</span>
+                      <span className="font-mono text-emerald-400 font-semibold truncate">
                         R$ {tariff.ratePerKwh.toFixed(2)}/kWh
                       </span>
                     </div>
@@ -109,10 +111,10 @@ export const UnitsView: React.FC = () => {
                 </div>
 
                 {/* Consumption and Goal Block */}
-                <div className="mt-4 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono text-xs">
-                  <div className="flex items-center justify-between">
+                <div className="mt-4 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono text-xs min-w-0">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="text-[11px] font-sans text-slate-400">Consumo Acumulado:</span>
-                    <span className="text-sm font-bold text-white tabular-nums">
+                    <span className="text-sm font-bold text-white tabular-nums truncate">
                       {formatKwh(totalKwh)}
                     </span>
                   </div>

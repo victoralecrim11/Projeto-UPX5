@@ -60,7 +60,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
         {onInvestigate && (
           <button
             onClick={onInvestigate}
-            className="inline-flex items-center gap-1.5 font-medium text-emerald-400 hover:text-emerald-300 transition-colors shrink-0"
+            className="inline-flex items-center gap-1.5 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors shrink-0 cursor-pointer hover:translate-x-0.5"
           >
             <span>Ver detalhes do alerta</span>
             <ArrowRight className="w-3.5 h-3.5" />

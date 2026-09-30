@@ -134,7 +134,7 @@ export const PointsView: React.FC = () => {
       </div>
 
       {/* Grid of Points */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {points.map((pt) => {
           const unit = units.find((u) => u.id === pt.unitId);
           const ptRecords = records.filter((r) => r.pointId === pt.id);
@@ -155,41 +155,43 @@ export const PointsView: React.FC = () => {
           return (
             <div
               key={pt.id}
-              className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
+              className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col justify-between min-w-0 ${
                 pt.hasInsufficientHistory
                   ? 'bg-slate-900/60 border-amber-900/40'
                   : 'bg-slate-900/90 border-slate-800 hover:border-slate-700'
               }`}
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-emerald-400">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-emerald-400 shrink-0">
                       <Gauge className="w-4 h-4" />
                     </div>
-                    <div>
-                      <span className="text-[10px] font-mono text-emerald-400 font-semibold block">
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-mono text-emerald-400 font-semibold block truncate">
                         {pt.meterIdentifier}
                       </span>
-                      <h3 className="text-sm font-bold text-white truncate max-w-[180px]">
+                      <h3 className="text-sm font-bold text-white truncate" title={pt.name}>
                         {pt.name}
                       </h3>
                     </div>
                   </div>
 
-                  <StatusBadge status={pt.status} />
+                  <div className="shrink-0">
+                    <StatusBadge status={pt.status} />
+                  </div>
                 </div>
 
-                <div className="space-y-2 text-xs text-slate-300">
-                  <div className="flex items-center gap-1.5 text-slate-400">
-                    <Building2 className="w-3.5 h-3.5 text-slate-500" />
-                    <span>{unit?.name} · {pt.location}</span>
+                <div className="space-y-2 text-xs text-slate-300 min-w-0">
+                  <div className="flex items-center gap-1.5 text-slate-400 min-w-0">
+                    <Building2 className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <span className="truncate">{unit?.name} · {pt.location}</span>
                   </div>
 
                   {pt.operatingSchedule && (
-                    <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
-                      <Clock className="w-3.5 h-3.5 text-slate-500" />
-                      <span>
+                    <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[11px] min-w-0">
+                      <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                      <span className="truncate">
                         Janela: {pt.operatingSchedule.startHour}:00 às {pt.operatingSchedule.endHour}:00 (Seg-Sex)
                       </span>
                     </div>
@@ -205,15 +207,15 @@ export const PointsView: React.FC = () => {
 
                 {/* Metrics */}
                 <div className="mt-4 pt-3 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs font-mono">
-                  <div>
-                    <span className="text-[10px] text-slate-400 block font-sans">Última Leitura:</span>
-                    <span className="font-bold text-white">
+                  <div className="min-w-0">
+                    <span className="text-[10px] text-slate-400 block font-sans truncate">Última Leitura:</span>
+                    <span className="font-bold text-white truncate block">
                       {lastRecord ? formatKwh(lastRecord.value) : '—'}
                     </span>
                   </div>
-                  <div>
-                    <span className="text-[10px] text-slate-400 block font-sans">Consumo Total:</span>
-                    <span className="font-bold text-emerald-400">
+                  <div className="min-w-0">
+                    <span className="text-[10px] text-slate-400 block font-sans truncate">Consumo Total:</span>
+                    <span className="font-bold text-emerald-400 truncate block">
                       {formatKwh(totalKwh)}
                     </span>
                   </div>
@@ -247,13 +249,13 @@ export const PointsView: React.FC = () => {
 
       {/* Drawer / Modal: Detalhes do Ponto de Medição */}
       {selectedPoint && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 text-xs space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 text-xs space-y-4 my-auto max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <Gauge className="w-5 h-5 text-emerald-400" />
-                <div>
-                  <h3 className="text-base font-bold text-white">{selectedPoint.name}</h3>
+                <Gauge className="w-5 h-5 text-emerald-400 shrink-0" />
+                <div className="min-w-0">
+                  <h3 className="text-base font-bold text-white truncate">{selectedPoint.name}</h3>
                   <span className="text-[11px] text-slate-400 font-mono">
                     ID: {selectedPoint.meterIdentifier} · Tipo: {selectedPoint.type}
                   </span>
@@ -261,7 +263,8 @@ export const PointsView: React.FC = () => {
               </div>
               <button
                 onClick={() => setSelectedPoint(null)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Fechar"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -330,11 +333,20 @@ export const PointsView: React.FC = () => {
 
       {/* Modal: Cadastro / Edição de Ponto */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6">
-            <h3 className="text-base font-bold text-white mb-4">
-              {editingPoint ? 'Editar Ponto de Medição' : 'Cadastrar Ponto de Medição'}
-            </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 my-auto max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <h3 className="text-base font-bold text-white">
+                {editingPoint ? 'Editar Ponto de Medição' : 'Cadastrar Ponto de Medição'}
+              </h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Fechar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
             <form onSubmit={handleSave} className="space-y-3 text-xs">
               <div>
@@ -345,7 +357,7 @@ export const PointsView: React.FC = () => {
                   placeholder="Ex: Climatização Bloco B"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -357,7 +369,7 @@ export const PointsView: React.FC = () => {
                   placeholder="Ex: MED-IND-05"
                   value={meterId}
                   onChange={(e) => setMeterId(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -366,7 +378,7 @@ export const PointsView: React.FC = () => {
                 <select
                   value={unitId}
                   onChange={(e) => setUnitId(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   {units.map((u) => (
                     <option key={u.id} value={u.id}>
@@ -381,7 +393,7 @@ export const PointsView: React.FC = () => {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as PointType)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   <option value="PRODUCAO">Produção / Maquinário</option>
                   <option value="CLIMATIZACAO">Climatização / HVAC</option>
@@ -399,7 +411,7 @@ export const PointsView: React.FC = () => {
                   placeholder="Ex: Pavilhão Sul - Bloco 2"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -412,7 +424,7 @@ export const PointsView: React.FC = () => {
                     max="23"
                     value={startHour}
                     onChange={(e) => setStartHour(Number(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
                 <div>
@@ -423,7 +435,7 @@ export const PointsView: React.FC = () => {
                     max="24"
                     value={endHour}
                     onChange={(e) => setEndHour(Number(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
@@ -432,13 +444,13 @@ export const PointsView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold"
+                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors cursor-pointer shadow-xs"
                 >
                   Salvar Ponto
                 </button>

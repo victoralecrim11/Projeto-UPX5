@@ -185,20 +185,20 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         } ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
       >
         {/* Brand Header */}
-        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-800/80 shrink-0">
+        <div className={`h-16 px-4 flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} border-b border-slate-800/80 shrink-0`}>
           <div
             onClick={() => handleNavClick('dashboard')}
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-emerald-950/40">
+            <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-emerald-950/40 shrink-0">
               <Zap className="w-5 h-5 fill-slate-950 text-slate-950" />
             </div>
             {!isCollapsed && (
-              <div className="flex flex-col">
-                <span className="text-base font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+              <div className="flex flex-col min-w-0">
+                <span className="text-base font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors truncate">
                   EcoIA
                 </span>
-                <span className="text-[10px] text-emerald-400 font-mono tracking-wide uppercase">
+                <span className="text-[10px] text-emerald-400 font-mono tracking-wide uppercase truncate">
                   Energia Elétrica
                 </span>
               </div>
@@ -208,7 +208,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           {/* Desktop collapse toggle */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden md:flex p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-colors"
+            className="hidden md:flex p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer"
             title={isCollapsed ? 'Expandir menu lateral' : 'Recolher menu lateral'}
             aria-label={isCollapsed ? 'Expandir menu lateral' : 'Recolher menu lateral'}
           >
@@ -217,7 +217,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         </div>
 
         {/* Navigation Items (Scrollable) */}
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6">
+        <div className="flex-1 overflow-y-auto py-4 px-2.5 space-y-5">
           {navigationGroups.map((group) => {
             // Filter items user has permission to see in menu
             const visibleItems = group.items.filter((item) =>
@@ -229,7 +229,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
             return (
               <div key={group.groupTitle} className="space-y-1">
                 {!isCollapsed && (
-                  <div className="px-3 text-[11px] font-semibold tracking-wider text-slate-400 uppercase font-mono mb-2">
+                  <div className="px-2.5 text-[10px] font-semibold tracking-wider text-slate-400 uppercase font-mono mb-1.5">
                     {group.groupTitle}
                   </div>
                 )}
@@ -243,10 +243,10 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                     <button
                       key={item.id}
                       onClick={() => handleNavClick(item.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                      className={`w-full flex items-center ${isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'} py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                         isActive
-                          ? 'bg-emerald-600/15 text-emerald-300 font-semibold border-l-2 border-emerald-500'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/80'
+                          ? 'bg-emerald-600/15 text-emerald-300 font-semibold border-l-2 border-emerald-500 shadow-xs'
+                          : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900 border-l-2 border-transparent'
                       }`}
                       title={isCollapsed ? item.label : undefined}
                     >

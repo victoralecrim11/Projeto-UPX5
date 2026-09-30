@@ -97,28 +97,28 @@ export const AutomationsView: React.FC = () => {
           Regras de Automação Configuradas
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {automations.map((rule) => (
             <div
               key={rule.id}
-              className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
+              className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 min-w-0 ${
                 rule.active
                   ? 'bg-slate-900/90 border-slate-800 shadow-xs'
                   : 'bg-slate-950/60 border-slate-800/60 opacity-60'
               }`}
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-emerald-400">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-emerald-400 shrink-0">
                       <GitBranch className="w-4 h-4" />
                     </div>
-                    <h3 className="text-sm font-bold text-white">{rule.name}</h3>
+                    <h3 className="text-sm font-bold text-white truncate" title={rule.name}>{rule.name}</h3>
                   </div>
 
                   <button
                     onClick={() => toggleAutomation(rule.id)}
-                    className="text-slate-400 hover:text-white"
+                    className="text-slate-400 hover:text-white shrink-0 cursor-pointer"
                     title={rule.active ? 'Desativar Regra' : 'Ativar Regra'}
                   >
                     {rule.active ? (
@@ -129,10 +129,10 @@ export const AutomationsView: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="mt-4 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs font-mono">
-                  <div>
+                <div className="mt-4 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs font-mono min-w-0">
+                  <div className="min-w-0">
                     <span className="text-slate-500 font-sans block text-[10px]">SE (Condição):</span>
-                    <span className="text-slate-200">
+                    <span className="text-slate-200 block truncate">
                       {rule.condition === 'DESVIO_MAIOR_QUE'
                         ? `Consumo exceder média em ${rule.thresholdPercent}%`
                         : rule.condition === 'CONSUMO_OCIOSO'
@@ -141,9 +141,9 @@ export const AutomationsView: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-800">
+                  <div className="pt-2 border-t border-slate-800 min-w-0">
                     <span className="text-slate-500 font-sans block text-[10px]">ENTÃO (Ação Digital):</span>
-                    <span className="text-emerald-300 font-semibold">
+                    <span className="text-emerald-300 font-semibold block truncate">
                       {rule.digitalAction === 'NOTIFICAR_GESTOR'
                         ? 'Notificar gestores via sistema'
                         : rule.digitalAction === 'CRIAR_OCORRENCIA'
@@ -153,9 +153,11 @@ export const AutomationsView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-3 text-[11px] text-slate-400">
+                <div className="mt-3 text-[11px] text-slate-400 min-w-0">
                   <span>Destinatários: </span>
-                  <strong className="text-slate-300 font-mono">{rule.recipients.join(', ')}</strong>
+                  <strong className="text-slate-300 font-mono truncate block" title={rule.recipients.join(', ')}>
+                    {rule.recipients.join(', ')}
+                  </strong>
                 </div>
               </div>
 
@@ -212,11 +214,20 @@ export const AutomationsView: React.FC = () => {
 
       {/* Modal: Criar Regra de Automação */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6">
-            <h3 className="text-base font-bold text-white mb-4">Nova Regra de Automação Digital</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-6 my-auto max-h-[90vh] overflow-y-auto text-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <h3 className="text-base font-bold text-white">Nova Regra de Automação Digital</h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Fechar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
-            <form onSubmit={handleSave} className="space-y-3 text-xs">
+            <form onSubmit={handleSave} className="space-y-3">
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Nome da Regra *</label>
                 <input
@@ -225,7 +236,7 @@ export const AutomationsView: React.FC = () => {
                   placeholder="Ex: Alerta de Consumo Noturno"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -234,7 +245,7 @@ export const AutomationsView: React.FC = () => {
                 <select
                   value={condition}
                   onChange={(e) => setCondition(e.target.value as AutomationCondition)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   <option value="DESVIO_MAIOR_QUE">Desvio acima da média em %</option>
                   <option value="CONSUMO_OCIOSO">Consumo fora do expediente (Ocioso)</option>
@@ -251,7 +262,7 @@ export const AutomationsView: React.FC = () => {
                     max="100"
                     value={thresholdPercent}
                     onChange={(e) => setThresholdPercent(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                    className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
               )}
@@ -261,7 +272,7 @@ export const AutomationsView: React.FC = () => {
                 <select
                   value={digitalAction}
                   onChange={(e) => setDigitalAction(e.target.value as AutomationAction)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
                 >
                   <option value="NOTIFICAR_GESTOR">Notificar Gestor e Operação</option>
                   <option value="CRIAR_OCORRENCIA">Criar Ocorrência Digital de Vistoria</option>
@@ -276,7 +287,7 @@ export const AutomationsView: React.FC = () => {
                   type="email"
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -284,13 +295,13 @@ export const AutomationsView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold"
+                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors cursor-pointer shadow-xs"
                 >
                   Salvar Regra
                 </button>

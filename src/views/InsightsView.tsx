@@ -160,7 +160,7 @@ export const InsightsView: React.FC = () => {
             <select
               value={simPointId}
               onChange={(e) => setSimPointId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white"
+              className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
             >
               {points.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -179,7 +179,7 @@ export const InsightsView: React.FC = () => {
               step="10"
               value={simVal}
               onChange={(e) => setSimVal(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white font-mono"
+              className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-hidden focus:border-emerald-500 transition-colors"
             />
           </div>
 
@@ -189,9 +189,9 @@ export const InsightsView: React.FC = () => {
               id="idleCheck"
               checked={simIsIdle}
               onChange={(e) => setSimIsIdle(e.target.checked)}
-              className="w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"
+              className="w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700 focus:ring-emerald-500 cursor-pointer"
             />
-            <label htmlFor="idleCheck" className="text-slate-300 font-medium cursor-pointer">
+            <label htmlFor="idleCheck" className="text-slate-300 hover:text-white font-medium cursor-pointer select-none">
               Simular leitura fora do expediente (Ocioso)
             </label>
           </div>

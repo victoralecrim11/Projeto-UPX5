@@ -33,6 +33,7 @@ import { StatusBadge, SeverityBadge } from '../components/shared/Badges';
 import { RecommendationCard } from '../components/shared/RecommendationCard';
 import {
   formatKwh,
+  formatNumber,
   formatCurrency,
   formatPercent,
   formatDate,
@@ -266,7 +267,7 @@ export const DashboardView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigateTo('consumo')}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition-colors shadow-sm shadow-emerald-950/40"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition-colors shadow-sm shadow-emerald-950/40 cursor-pointer"
           >
             <Zap className="w-3.5 h-3.5" />
             <span>Novo Registro Manual</span>
@@ -278,76 +279,88 @@ export const DashboardView: React.FC = () => {
       <FilterBar />
 
       {/* Top 4 KPI Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {/* 1. Consumo Total */}
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400">Consumo Total</span>
-            <div className="w-8 h-8 rounded-lg bg-slate-800/80 flex items-center justify-center text-emerald-400">
+        <div className="p-4 sm:p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-medium text-slate-400 truncate">Consumo Total</span>
+            <div className="w-8 h-8 rounded-lg bg-slate-800/80 flex items-center justify-center text-emerald-400 shrink-0">
               <Zap className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono tabular-nums">
-              {formatKwh(currentTotalKwh)}
+          <div className="mt-4 min-w-0">
+            <div className="flex items-baseline gap-1.5 min-w-0">
+              <span
+                className="text-xl sm:text-2xl xl:text-3xl font-bold tracking-tight text-white font-mono tabular-nums truncate"
+                title={formatKwh(currentTotalKwh)}
+              >
+                {formatNumber(currentTotalKwh, 1, 1)}
+              </span>
+              <span className="text-xs font-semibold text-slate-400 font-mono shrink-0">kWh</span>
             </div>
 
-            <div className="mt-2 flex items-center gap-1.5 text-xs">
+            <div className="mt-2 flex items-center gap-1.5 text-xs flex-wrap">
               {percentChange >= 0 ? (
-                <span className="inline-flex items-center text-red-400 font-semibold font-mono">
+                <span className="inline-flex items-center text-red-400 font-semibold font-mono shrink-0">
                   <TrendingUp className="w-3.5 h-3.5 mr-0.5" />
                   {formatPercent(percentChange)}
                 </span>
               ) : (
-                <span className="inline-flex items-center text-emerald-400 font-semibold font-mono">
+                <span className="inline-flex items-center text-emerald-400 font-semibold font-mono shrink-0">
                   <TrendingDown className="w-3.5 h-3.5 mr-0.5" />
                   {formatPercent(percentChange)}
                 </span>
               )}
-              <span className="text-slate-400">vs período anterior</span>
+              <span className="text-slate-400 truncate">vs período anterior</span>
             </div>
           </div>
         </div>
 
         {/* 2. Gasto Estimado */}
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-medium text-slate-400">Gasto Estimado</span>
+        <div className="p-4 sm:p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
+              <span className="text-xs font-medium text-slate-400 truncate">Gasto Estimado</span>
               <span
-                className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-950/70 text-emerald-300 border border-emerald-800/50"
+                className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-950/70 text-emerald-300 border border-emerald-800/50 shrink-0"
                 title="Valor calculado utilizando a tarifa configurada. Não representa cobrança oficial."
               >
                 Estimativa
               </span>
             </div>
-            <div className="w-8 h-8 rounded-lg bg-slate-800/80 flex items-center justify-center text-teal-400">
+            <div className="w-8 h-8 rounded-lg bg-slate-800/80 flex items-center justify-center text-teal-400 shrink-0">
               <DollarSign className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 min-w-0">
             {hasConfiguredTariff ? (
               <>
-                <div className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono tabular-nums">
-                  {formatCurrency(estimatedTotalCost)}
+                <div className="flex items-baseline gap-1 min-w-0 overflow-hidden">
+                  <span className="text-sm sm:text-base font-semibold text-slate-400 shrink-0">R$</span>
+                  <span
+                    className="text-xl sm:text-2xl xl:text-3xl font-bold tracking-tight text-white font-mono tabular-nums truncate"
+                    title={formatCurrency(estimatedTotalCost)}
+                  >
+                    {formatNumber(estimatedTotalCost, 2, 2)}
+                  </span>
                 </div>
-                <div className="mt-2 flex items-center gap-1 text-[11px] text-slate-400 truncate">
+                <div className="mt-2 flex items-center gap-1 text-[11px] text-slate-400 min-w-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                  <span className="truncate">{activeTariffName}</span>
+                  <span className="truncate" title={activeTariffName}>{activeTariffName}</span>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-2xl font-bold tracking-tight text-slate-400 font-mono">
+                <div className="text-xl sm:text-2xl font-bold tracking-tight text-slate-400 font-mono">
                   —
                 </div>
-                <div className="mt-2 flex items-center justify-between gap-1 text-xs">
-                  <span className="text-amber-400 text-[11px]">Gasto não calculado</span>
+                <div className="mt-2 flex items-center justify-between gap-1 text-xs min-w-0">
+                  <span className="text-amber-400 text-[11px] truncate">Gasto não calculado</span>
                   <button
                     onClick={() => navigateTo('tarifas')}
-                    className="text-[11px] font-medium text-emerald-400 hover:underline flex items-center gap-0.5"
+                    className="text-[11px] font-medium text-emerald-400 hover:underline flex items-center gap-0.5 shrink-0"
                   >
                     <span>Configurar tarifa</span>
                     <ArrowUpRight className="w-3 h-3" />
@@ -359,23 +372,35 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* 3. Meta do Período */}
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400 truncate">
+        <div className="p-4 sm:p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <span
+              className="text-xs font-medium text-slate-400 truncate"
+              title={activeGoal ? activeGoal.name : 'Meta de Consumo'}
+            >
               {activeGoal ? activeGoal.name : 'Meta de Consumo'}
             </span>
-            <div className="w-8 h-8 rounded-lg bg-slate-800/80 flex items-center justify-center text-amber-400">
+            <div className="w-8 h-8 rounded-lg bg-slate-800/80 flex items-center justify-center text-amber-400 shrink-0">
               <Target className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="mt-4">
-            <div className="flex items-baseline justify-between font-mono tabular-nums">
-              <span className="text-xl sm:text-2xl font-bold text-white">
-                {formatKwh(currentTotalKwh)}
-              </span>
-              <span className="text-xs text-slate-400">
-                / {formatKwh(goalProgress.target)}
+          <div className="mt-4 min-w-0">
+            <div className="flex items-baseline justify-between gap-1.5 font-mono tabular-nums min-w-0">
+              <div className="flex items-baseline gap-1 min-w-0">
+                <span
+                  className="text-lg sm:text-xl xl:text-2xl font-bold text-white truncate"
+                  title={formatKwh(currentTotalKwh)}
+                >
+                  {formatNumber(currentTotalKwh, 0, 1)}
+                </span>
+                <span className="text-xs text-slate-400 shrink-0">kWh</span>
+              </div>
+              <span
+                className="text-xs text-slate-400 shrink-0 text-right"
+                title={`Meta: ${formatKwh(goalProgress.target)}`}
+              >
+                / {formatNumber(goalProgress.target, 0, 0)} kWh
               </span>
             </div>
 
@@ -393,10 +418,10 @@ export const DashboardView: React.FC = () => {
                   style={{ width: `${Math.min(100, goalProgress.pct)}%` }}
                 />
               </div>
-              <div className="mt-1.5 flex items-center justify-between text-[11px] font-mono">
-                <span className="text-slate-400">{goalProgress.pct.toFixed(1)}% utilizado</span>
+              <div className="mt-1.5 flex items-center justify-between text-[11px] font-mono gap-1">
+                <span className="text-slate-400 truncate">{goalProgress.pct.toFixed(1)}% utilizado</span>
                 {goalProgress.pct > 100 && (
-                  <span className="text-red-400 font-semibold">Excedida</span>
+                  <span className="text-red-400 font-semibold shrink-0">Excedida</span>
                 )}
               </div>
             </div>
@@ -406,30 +431,30 @@ export const DashboardView: React.FC = () => {
         {/* 4. Alertas Ativos */}
         <div
           onClick={() => navigateTo('alertas')}
-          className="p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between cursor-pointer hover:border-slate-700 transition-all group"
+          className="p-4 sm:p-5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-xs flex flex-col justify-between cursor-pointer hover:border-slate-700 transition-all group min-w-0"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400">Eventos em Aberto</span>
-            <div className="w-8 h-8 rounded-lg bg-red-950/60 border border-red-800/50 flex items-center justify-center text-red-400">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-medium text-slate-400 truncate">Eventos em Aberto</span>
+            <div className="w-8 h-8 rounded-lg bg-red-950/60 border border-red-800/50 flex items-center justify-center text-red-400 shrink-0">
               <AlertOctagon className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="mt-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-bold text-white font-mono tabular-nums">
+          <div className="mt-4 min-w-0">
+            <div className="flex items-baseline gap-2 min-w-0">
+              <span className="text-xl sm:text-2xl xl:text-3xl font-bold text-white font-mono tabular-nums">
                 {activeAlerts.total}
               </span>
-              <span className="text-xs text-slate-400">alertas ativos</span>
+              <span className="text-xs text-slate-400 truncate">alertas ativos</span>
             </div>
 
-            <div className="mt-2.5 flex items-center gap-3 text-xs">
-              <div className="flex items-center gap-1 text-red-400">
+            <div className="mt-2.5 flex items-center gap-3 text-xs flex-wrap">
+              <div className="flex items-center gap-1 text-red-400 shrink-0">
                 <AlertOctagon className="w-3.5 h-3.5" />
                 <span className="font-mono font-semibold">{activeAlerts.high}</span>
                 <span className="text-slate-400 text-[11px]">altos</span>
               </div>
-              <div className="flex items-center gap-1 text-amber-400">
+              <div className="flex items-center gap-1 text-amber-400 shrink-0">
                 <AlertTriangle className="w-3.5 h-3.5" />
                 <span className="font-mono font-semibold">{activeAlerts.medium}</span>
                 <span className="text-slate-400 text-[11px]">médios</span>
@@ -596,7 +621,7 @@ export const DashboardView: React.FC = () => {
             </div>
             <button
               onClick={() => navigateTo('pontos-medicao')}
-              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+              className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer transition-colors"
             >
               <span>Ver todos</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -646,7 +671,7 @@ export const DashboardView: React.FC = () => {
             </div>
             <button
               onClick={() => navigateTo('analises')}
-              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+              className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer transition-colors"
             >
               <span>Ver análises</span>
               <ChevronRight className="w-3.5 h-3.5" />

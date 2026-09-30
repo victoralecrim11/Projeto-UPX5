@@ -130,7 +130,7 @@ export const FilterBar: React.FC = () => {
 
       {/* Custom Date Inputs if selected */}
       {showCustomDate && (
-        <div className="mt-3 pt-3 border-t border-slate-800 flex items-center gap-3 text-xs">
+        <div className="mt-3 pt-3 border-t border-slate-800 flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-1.5">
             <Calendar className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-400">De:</span>
@@ -140,7 +140,7 @@ export const FilterBar: React.FC = () => {
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, customStartDate: e.target.value }))
               }
-              className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200 focus:outline-hidden focus:border-emerald-500"
+              className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1 text-slate-200 focus:outline-hidden focus:border-emerald-500 transition-colors"
             />
           </div>
           <div className="flex items-center gap-1.5">
@@ -151,7 +151,7 @@ export const FilterBar: React.FC = () => {
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, customEndDate: e.target.value }))
               }
-              className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200 focus:outline-hidden focus:border-emerald-500"
+              className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1 text-slate-200 focus:outline-hidden focus:border-emerald-500 transition-colors"
             />
           </div>
         </div>
