@@ -96,7 +96,7 @@ export const ConsumptionView: React.FC = () => {
     setIsNewModalOpen(true);
   };
 
-  const handleSaveManualRecord = (e: React.FormEvent) => {
+  const handleSaveManualRecord = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
 
@@ -113,7 +113,7 @@ export const ConsumptionView: React.FC = () => {
 
     const isoString = `${formDate}T${formTime}:00.000Z`;
 
-    const result = addManualRecord({
+    const result = await addManualRecord({
       pointId: formPointId,
       value: val,
       timestamp: isoString,

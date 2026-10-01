@@ -4,44 +4,40 @@ import { useApp } from '../context/AppContext';
 import { RoleBadge, StatusBadge } from '../components/shared/Badges';
 import { AccessDenied } from '../components/shared/AccessDenied';
 import { formatDateTime } from '../lib/calculations';
-import { UserRole, User } from '../types';
-import { initialUsers } from '../data/fixtures';
+import { UserRole } from '../types';
 
 export const UsersView: React.FC = () => {
-  const { hasPermission, currentUser, switchUserRole } = useApp();
-  const [usersList, setUsersList] = useState<User[]>(initialUsers);
+  const {
+    hasPermission,
+    currentUser,
+    switchUserRole,
+    users: usersList,
+    addUser,
+    toggleUserActive,
+  } = useApp();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<UserRole>('OPERACAO');
+  const [formError, setFormError] = useState('');
 
   // RBAC Guard
   if (!hasPermission(['ADMIN'])) {
     return <AccessDenied requiredRoles={['Administrador']} />;
   }
 
-  const handleCreateUser = (e: React.FormEvent) => {
+  const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email) return;
 
-    const newUser: User = {
-      id: `usr-${Date.now()}`,
-      name,
-      email,
-      role,
-      organizationId: 'org-ecoia-01',
-      active: true,
-      lastLogin: new Date().toISOString(),
-    };
-
-    setUsersList((prev) => [...prev, newUser]);
+    // Sem senha informada, o backend atribui a senha de demonstração.
+    const result = await addUser({ name, email, role });
+    if (!result.success) {
+      setFormError(result.message);
+      return;
+    }
+    setFormError('');
     setIsModalOpen(false);
-  };
-
-  const toggleUserActive = (id: string) => {
-    setUsersList((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, active: !u.active } : u))
-    );
   };
 
   return (
@@ -62,6 +58,7 @@ export const UsersView: React.FC = () => {
             setName('');
             setEmail('');
             setRole('OPERACAO');
+            setFormError('');
             setIsModalOpen(true);
           }}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition-colors shadow-xs"
@@ -177,6 +174,11 @@ export const UsersView: React.FC = () => {
             </div>
 
             <form onSubmit={handleCreateUser} className="space-y-3">
+              {formError && (
+                <div className="p-2.5 rounded-lg bg-red-950/70 border border-red-800 text-red-200">
+                  {formError}
+                </div>
+              )}
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Nome Completo *</label>
                 <input

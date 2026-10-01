@@ -19,10 +19,39 @@ import { UsersView } from './views/UsersView';
 import { AuditView } from './views/AuditView';
 import { SettingsView } from './views/SettingsView';
 
+const ApiErrorToast: React.FC = () => {
+  const { errorMessage, clearError } = useApp();
+  if (!errorMessage) return null;
+
+  return (
+    <div
+      role="alert"
+      className="fixed bottom-4 right-4 left-4 sm:left-auto sm:max-w-sm z-50 flex items-start gap-3 p-3 rounded-xl bg-red-950/95 border border-red-800 text-red-100 text-xs shadow-2xl"
+    >
+      <span className="flex-1 leading-relaxed">{errorMessage}</span>
+      <button
+        onClick={clearError}
+        className="text-red-300 hover:text-white font-semibold cursor-pointer"
+        aria-label="Fechar aviso"
+      >
+        ✕
+      </button>
+    </div>
+  );
+};
+
 const MainLayout: React.FC = () => {
-  const { currentRoute, currentUser } = useApp();
+  const { currentRoute, currentUser, isLoading } = useApp();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-sm">
+        Carregando dados da plataforma…
+      </div>
+    );
+  }
 
   // If user is not logged in or explicitly on login screen
   if (!currentUser || currentRoute === 'login') {
@@ -88,6 +117,7 @@ export default function App() {
   return (
     <AppProvider>
       <MainLayout />
+      <ApiErrorToast />
     </AppProvider>
   );
 }

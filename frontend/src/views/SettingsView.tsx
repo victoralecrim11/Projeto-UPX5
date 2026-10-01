@@ -165,7 +165,7 @@ export const SettingsView: React.FC = () => {
             Gerenciamento do Conjunto de Dados Simulado
           </h2>
           <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-            Reinicialize a base de dados em memória e localStorage com o conjunto determinístico padrão de 90 dias.
+            Reinicialize a base de dados do servidor com o conjunto determinístico padrão de 90 dias.
           </p>
         </div>
 

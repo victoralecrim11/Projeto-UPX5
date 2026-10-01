@@ -13,7 +13,7 @@ import {
   AuditLog,
   User,
   ThresholdConfig,
-} from '../types';
+} from '../types/index.js';
 
 export const initialOrganization: Organization = {
   id: 'org-ecoia-01',

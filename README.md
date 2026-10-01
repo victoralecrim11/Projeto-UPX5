@@ -1,6 +1,6 @@
 # EcoIA — Plataforma Inteligente para Monitoramento do Consumo de Energia Elétrica
 
-> **MVP Frontend de Alta Fidelidade** voltado exclusivamente para o monitoramento, análise explicável, gestão de metas e detecção de anomalias no consumo de **energia elétrica**.
+> **MVP Full-stack (React + API Node/Express)** voltado exclusivamente para o monitoramento, análise explicável, gestão de metas e detecção de anomalias no consumo de **energia elétrica**.
 
 ---
 
@@ -70,13 +70,18 @@ O **EcoIA** é um SaaS B2B moderno projetado para responder seis perguntas opera
 
 ## 🛠️ 3. Arquitetura e Tecnologias
 
-- **Framework**: React 19 + TypeScript + Vite
-- **Estilização**: Tailwind CSS v4 com paleta B2B especializada (tons petróleo, slate profundo, acentos em verde esmeralda e âmbar)
-- **Ícones**: Lucide React
-- **Gráficos**: Recharts
-- **Animações**: Motion
-- **Estado**: Context API reativo com persistência em `localStorage`
-- **Validação & Testes**: Regras estatísticas puras isoladas em `src/lib/calculations.ts`
+O repositório é um monorepo com **npm workspaces**:
+
+| Camada | Pasta | Stack |
+|---|---|---|
+| **Frontend** | `frontend/` | React 19 + TypeScript + Vite, Tailwind CSS v4, Recharts, Lucide, Motion |
+| **Backend** | `backend/` | Node.js + Express 5 + TypeScript, JWT, Zod, Vitest |
+| **Persistência** | `backend/data/db.json` | Banco em memória persistido em arquivo JSON (escrita atômica) |
+
+- O frontend consome a API REST via `frontend/src/lib/api.ts`; em desenvolvimento o Vite faz proxy de `/api` → `http://localhost:3333`.
+- O **motor de regras** (média móvel de 7 dias, consumo ocioso, alertas, recomendações, notificações e automações) roda no servidor (`backend/src/services/consumption.ts`).
+- **RBAC** aplicado no backend (`requireRoles`) e espelhado na UI (`hasPermission`).
+- Senhas com hash `scrypt`; sessão via **JWT Bearer**.
 
 ---
 
@@ -84,81 +89,74 @@ O **EcoIA** é um SaaS B2B moderno projetado para responder seis perguntas opera
 
 ```
 /
-├── index.html                 # Entry point HTML com metadados do EcoIA
-├── metadata.json              # Configurações do applet
-├── package.json               # Dependências e scripts
-├── tsconfig.json              # Configuração TypeScript
-├── vite.config.ts             # Configuração do Vite e Tailwind
-└── src/
-    ├── main.tsx               # Montagem do React no DOM
-    ├── App.tsx                # Roteamento e layout com sidebar recolhível
-    ├── index.css              # Importação do Tailwind CSS v4
-    ├── types/                 # Interfaces do domínio de energia (RBAC, Metas, Pontos, etc.)
-    │   └── index.ts
-    ├── lib/                   # Funções puras de cálculo estatístico e formatação
-    │   ├── calculations.ts
-    │   └── calculations.test.ts
-    ├── data/                  # Conjunto de dados simulados (fixtures)
-    │   └── fixtures.ts
-    ├── context/               # Estado global da aplicação e persistência
-    │   └── AppContext.tsx
-    ├── components/
-    │   ├── layout/            # Sidebar, Header e dropdown de notificações
-    │   │   ├── AppHeader.tsx
-    │   │   ├── AppSidebar.tsx
-    │   │   └── NotificationDropdown.tsx
-    │   └── shared/            # Componentes reutilizáveis do Design System
-    │       ├── Badges.tsx
-    │       ├── FilterBar.tsx
-    │       ├── RecommendationCard.tsx
-    │       ├── AccessDenied.tsx
-    │       └── TwoFactorModal.tsx
-    └── views/                 # Telas da aplicação
-        ├── LoginView.tsx
-        ├── DashboardView.tsx
-        ├── ConsumptionView.tsx
-        ├── PointsView.tsx
-        ├── UnitsView.tsx
-        ├── GoalsView.tsx
-        ├── AlertsView.tsx
-        ├── AlertDetailView.tsx
-        ├── InsightsView.tsx
-        ├── ReportsView.tsx
-        ├── AutomationsView.tsx
-        ├── TariffsView.tsx
-        ├── UsersView.tsx
-        ├── AuditView.tsx
-        └── SettingsView.tsx
+├── package.json               # Workspaces + scripts que sobem front e back juntos
+├── frontend/
+│   ├── index.html
+│   ├── vite.config.ts         # Tailwind + proxy /api
+│   └── src/
+│       ├── App.tsx            # Roteamento, carregamento e aviso de erros da API
+│       ├── context/AppContext.tsx   # Estado global sincronizado com a API
+│       ├── lib/api.ts         # Cliente HTTP (token JWT, tratamento de 401)
+│       ├── lib/calculations.ts      # Formatadores e cálculos de exibição
+│       ├── components/  views/  types/
+└── backend/
+    ├── .env.example
+    └── src/
+        ├── server.ts  app.ts  config.ts  schemas.ts
+        ├── db/store.ts        # Banco JSON (load/persist/reset)
+        ├── db/seed.ts         # Dados de demonstração (90 dias determinísticos)
+        ├── domain/calculations.ts   # Regras estatísticas puras (+ testes)
+        ├── services/          # Motor de consumo e auditoria
+        ├── middleware/auth.ts # JWT + RBAC
+        └── routes/            # auth, bootstrap, consumo, alertas, gestão, admin
 ```
+
+### Endpoints da API (`/api`)
+
+| Método | Rota | Perfis |
+|---|---|---|
+| POST | `/auth/login` · GET `/auth/me` · POST `/auth/switch-role` (demo) | público / autenticado |
+| GET | `/bootstrap` (carga inicial de todas as coleções) | autenticado |
+| GET | `/units`, `/points`, `/records?pointId&from&to` | autenticado |
+| POST/PATCH | `/points`, `/points/:id` | ADMIN, GESTOR |
+| POST | `/records` (lançamento manual + análise) | ADMIN, GESTOR, OPERACAO |
+| PATCH/DELETE | `/records/:id` | ADMIN, OPERACAO |
+| GET | `/alerts`, `/alerts/:id`, `/recommendations`, `/notifications` | autenticado |
+| POST | `/alerts/:id/view` · `/alerts/:id/treat` | autenticado · ADMIN, GESTOR, OPERACAO |
+| POST | `/notifications/:id/read`, `/notifications/read-all` | autenticado |
+| CRUD | `/goals` | ADMIN, GESTOR |
+| CRUD | `/tariffs` | ADMIN, FINANCEIRO |
+| GET/POST | `/automations`, `/automations/logs`, `/automations/:id/toggle` | ADMIN, GESTOR |
+| GET/POST/PATCH | `/users` | ADMIN |
+| GET | `/audit-logs` | ADMIN |
+| GET/PUT | `/settings/thresholds` | autenticado / ADMIN |
+| POST | `/admin/reset` (demo) | autenticado |
 
 ---
 
 ## 💻 5. Instruções de Execução
 
-### Instalação de Dependências
 ```bash
-npm install
+npm install          # instala front e back (workspaces)
+npm run dev          # sobe API (:3333) e frontend (:3000) juntos
 ```
 
-### Execução em Modo de Desenvolvimento
-```bash
-npm run dev
-```
-O servidor será iniciado na porta local `3000` (acessível em `http://localhost:3000`).
+- Frontend: `http://localhost:3000` · API: `http://localhost:3333/api/health`
+- Opcional: copie `backend/.env.example` para `backend/.env` (porta, JWT_SECRET, CORS, data de referência).
+- Separadamente: `npm run dev:back` / `npm run dev:front`
 
-### Validação de Tipagem
-```bash
-npm run lint
-```
-
-### Build de Produção
-```bash
-npm run build
-```
+| Comando | O que faz |
+|---|---|
+| `npm run lint` | Checagem de tipos do back e do front |
+| `npm test` | Testes das regras estatísticas (Vitest) |
+| `npm run build` | Build do backend (`backend/dist`) e do frontend (`frontend/dist`) |
+| `npm run seed:reset -w backend` | Restaura `db.json` com os dados de demonstração |
 
 ---
 
 ## 🔒 6. Perfis para Demonstração
+
+Senha de todos os perfis de demonstração: **demo123456**
 
 | Perfil | E-mail de Teste | Permissões |
 |---|---|---|
