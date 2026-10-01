@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Configuração de demonstração do backend é versionada de propósito
+!backend/.env
+
+# Arquivo temporário da escrita atômica do db.json
+backend/data/*.tmp

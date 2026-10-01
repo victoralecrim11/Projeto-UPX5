@@ -61,8 +61,9 @@ export function evaluateIdleConsumption(
   if (kwhValue <= 5) return false; // Minimal baseline standby is acceptable
 
   const date = new Date(timestamp);
-  const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
-  const hour = date.getHours();
+  // UTC: o horário informado pelo usuário é gravado como "wall clock" com sufixo Z
+  const dayOfWeek = date.getUTCDay(); // 0 = Sunday, 1 = Monday, etc.
+  const hour = date.getUTCHours();
 
   const isOperatingDay = point.operatingSchedule.weekdays.includes(dayOfWeek);
   const isOperatingHour =

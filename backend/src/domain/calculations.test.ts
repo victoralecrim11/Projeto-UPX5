@@ -8,8 +8,8 @@ import {
   classifyConsumption,
   calculateEstimatedCost,
   evaluateIdleConsumption,
-} from './calculations';
-import { ConsumptionRecord, MeasurementPoint, ThresholdConfig } from '../types';
+} from './calculations.js';
+import { ConsumptionRecord, MeasurementPoint, ThresholdConfig } from '../types/index.js';
 
 const defaultThresholds: ThresholdConfig = {
   mediumThresholdPercent: 20,

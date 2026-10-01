@@ -14,14 +14,13 @@ import {
 import { useApp } from '../context/AppContext';
 import { TwoFactorModal } from '../components/shared/TwoFactorModal';
 import { RoleBadge } from '../components/shared/Badges';
-import { initialUsers } from '../data/fixtures';
 import { UserRole } from '../types';
 
 export const LoginView: React.FC = () => {
   const { login } = useApp();
 
   const [email, setEmail] = useState('admin@ecoia.demo');
-  const [password, setPassword] = useState('••••••••••••');
+  const [password, setPassword] = useState('demo123456');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [simulate2FA, setSimulate2FA] = useState(false);
@@ -61,7 +60,7 @@ export const LoginView: React.FC = () => {
     setErrorMsg('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
 
@@ -70,15 +69,16 @@ export const LoginView: React.FC = () => {
       return;
     }
 
-    const success = login(email, password);
-    if (!success) {
-      setErrorMsg('Credenciais não encontradas no mock de usuários. Escolha um dos perfis sugeridos abaixo.');
+    const result = await login(email, password);
+    if (!result.success) {
+      setErrorMsg(result.message);
     }
   };
 
-  const handle2FASuccess = () => {
+  const handle2FASuccess = async () => {
     setIs2FAOpen(false);
-    login(email, password);
+    const result = await login(email, password);
+    if (!result.success) setErrorMsg(result.message);
   };
 
   return (
@@ -100,7 +100,7 @@ export const LoginView: React.FC = () => {
           <div className="pb-3 border-b border-slate-800">
             <h2 className="text-sm font-semibold text-slate-200">Acesso Corporativo</h2>
             <span className="text-[11px] text-slate-400">
-              Autenticação simulada de demonstração frontend (RF-001)
+              Autenticação via API EcoIA (RF-001) · senha de demonstração: demo123456
             </span>
           </div>
 
