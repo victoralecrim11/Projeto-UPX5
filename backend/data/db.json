@@ -15,7 +15,7 @@
       "role": "ADMIN",
       "organizationId": "org-ecoia-01",
       "active": true,
-      "lastLogin": "2026-09-29T14:30:00.000Z",
+      "lastLogin": "2026-10-02T16:15:41.774Z",
       "twoFactorEnabled": true,
       "passwordHash": "197852bf1ce2884de69461667663bd03:46c4f6570bda0aaaf7e7513323712b731a24874de9dae53efd4425049e0a06a3b4296eaec4c93dda65917d4939d62b13568b0c8fb99d9522772bf47aa1f324f2"
     },
@@ -6966,7 +6966,7 @@
       "unitId": "unit-industrial",
       "type": "CONSUMO_EXCESSIVO",
       "criticality": "ALTA",
-      "status": "NOVO",
+      "status": "VISUALIZADO",
       "title": "Consumo 42,2% acima da média histórica",
       "description": "Ponto Climatização - Bloco A registrou consumo expressivamente superior ao padrão esperado dos últimos 7 dias.",
       "observedKwh": 580,
@@ -6981,6 +6981,13 @@
           "date": "2026-09-27T18:00:00.000Z",
           "title": "Alerta gerado automaticamente pela EcoIA",
           "description": "Desvio de 42,2% detectado em relação à média móvel de 7 dias (408,0 kWh)."
+        },
+        {
+          "id": "tl-2b877bdf",
+          "date": "2026-10-02T16:09:08.243Z",
+          "title": "Alerta visualizado pelo operador",
+          "description": "Aberto para consulta detalhada.",
+          "user": "Ricardo Torres"
         }
       ]
     },

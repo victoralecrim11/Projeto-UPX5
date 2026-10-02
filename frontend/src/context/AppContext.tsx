@@ -53,6 +53,7 @@ interface AppContextType {
   // Navigation & Route
   currentRoute: string;
   selectedAlertId: string | null;
+  setSelectedAlertId: (id: string | null) => void;
   navigateTo: (route: string, alertId?: string) => void;
 
   // Auth & RBAC
@@ -259,9 +260,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // Navigation Handler
   const navigateTo = (route: string, alertId?: string) => {
-    if (alertId) {
-      setSelectedAlertId(alertId);
-    }
+    setSelectedAlertId(alertId || null);
     setCurrentRoute(route);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -409,6 +408,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       value={{
         currentRoute,
         selectedAlertId,
+        setSelectedAlertId,
         navigateTo,
 
         currentUser,
