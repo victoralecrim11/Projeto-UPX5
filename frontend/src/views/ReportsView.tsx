@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import * as XLSX from 'xlsx';
 import {
   FileBarChart,
   Download,
@@ -82,10 +83,10 @@ export const ReportsView: React.FC = () => {
     };
   }, [filteredRecords, filters, points, tariffs, alerts]);
 
-  // Client-Side CSV Exporter
-  const handleExportCSV = () => {
+  // Client-Side Excel Exporter
+  const handleExportExcel = () => {
     let headers: string[] = [];
-    let rows: string[][] = [];
+    let rows: any[][] = [];
 
     if (activeReport === 'CONSUMO' || activeReport === 'GERENCIAL' || activeReport === 'CUSTOS_ESTIMADOS') {
       headers = [
@@ -114,13 +115,13 @@ export const ReportsView: React.FC = () => {
 
         return [
           r.timestamp,
-          `"${pt?.name || r.pointId}"`,
-          `"${pt?.meterIdentifier || ''}"`,
-          `"${unit?.name || ''}"`,
-          r.value.toFixed(2),
+          pt?.name || r.pointId,
+          pt?.meterIdentifier || '',
+          unit?.name || '',
+          Number(r.value.toFixed(2)),
           r.origin,
-          tariff ? tariff.ratePerKwh.toFixed(2) : 'N/A',
-          cost.estimatedTotal !== null ? cost.estimatedTotal.toFixed(2) : 'N/A',
+          tariff ? Number(tariff.ratePerKwh.toFixed(2)) : 'N/A',
+          cost.estimatedTotal !== null ? Number(cost.estimatedTotal.toFixed(2)) : 'N/A',
           r.status,
         ];
       });
@@ -143,14 +144,14 @@ export const ReportsView: React.FC = () => {
         return [
           a.id,
           a.timestamp,
-          `"${pt?.name || a.pointId}"`,
+          pt?.name || a.pointId,
           a.type,
           a.criticality,
           a.status,
-          a.observedKwh.toFixed(2),
-          a.referenceKwh.toFixed(2),
-          `${a.deviationPercent.toFixed(1)}%`,
-          a.estimatedCost !== null ? a.estimatedCost.toFixed(2) : 'N/A',
+          Number(a.observedKwh.toFixed(2)),
+          Number(a.referenceKwh.toFixed(2)),
+          Number(a.deviationPercent.toFixed(1)),
+          a.estimatedCost !== null ? Number(a.estimatedCost.toFixed(2)) : 'N/A',
         ];
       });
     } else if (activeReport === 'METAS') {
@@ -164,30 +165,37 @@ export const ReportsView: React.FC = () => {
       ];
 
       rows = goals.map((g) => [
-        `"${g.name}"`,
+        g.name,
         g.scope,
-        `"${g.targetEntityId || 'Organizacao'}"`,
-        `"${g.period}"`,
-        g.targetKwh.toFixed(0),
+        g.targetEntityId || 'Organizacao',
+        g.period,
+        Number(g.targetKwh.toFixed(0)),
         g.status,
       ]);
     }
 
-    const csvContent =
-      'data:text/csv;charset=utf-8,\uFEFF' +
-      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const wsData = [headers, ...rows];
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute(
-      'download',
-      `ecoia_relatorio_${activeReport.toLowerCase()}_${new Date().toISOString().slice(0, 10)}.csv`
+    // Auto-fit column widths
+    const colWidths = headers.map((h, i) => {
+      const maxLen = Math.max(
+        h.length,
+        ...rows.map((r) => String(r[i] ?? '').length)
+      );
+      return { wch: Math.min(maxLen + 2, 50) };
+    });
+    ws['!cols'] = colWidths;
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, activeReport);
+
+    XLSX.writeFile(
+      wb,
+      `ecoia_relatorio_${activeReport.toLowerCase()}_${new Date().toISOString().slice(0, 10)}.xlsx`
     );
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
+
 
   const handlePrint = () => {
     window.print();
@@ -208,11 +216,11 @@ export const ReportsView: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <button
-            onClick={handleExportCSV}
+            onClick={handleExportExcel}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors shadow-xs cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Exportar CSV</span>
+            <span>Exportar Excel</span>
           </button>
 
           <button
