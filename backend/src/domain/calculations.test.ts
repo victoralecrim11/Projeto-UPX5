@@ -2,6 +2,7 @@
  * Tests for EcoIA Pure Calculation and Rule Functions
  * Corresponds to Section 23, 45, and PRD BDD Scenarios (Cenários 3, 4, 9, 10)
  */
+import { describe, expect, test } from 'vitest';
 import {
   calculateMovingAverage,
   calculateDeviation,
