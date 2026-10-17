@@ -330,7 +330,7 @@ curl -X POST http://localhost:3333/api/auth/login \
   -d '{"email":"admin@ecoia.demo","password":"demo123456"}'
 ```
 ```json
-{ "token": "eyJhbGciOi...", "user": { "id": "usr-admin", "name": "Ricardo Torres", "role": "ADMIN", "...": "..." } }
+{ "token": "eyJhbGciOi...", "user": { "id": "usr-admin", "name": "Leandro Sotte", "role": "ADMIN", "...": "..." } }
 ```
 
 **Lançamento manual de consumo**

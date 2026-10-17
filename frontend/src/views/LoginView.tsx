@@ -31,25 +31,25 @@ export const LoginView: React.FC = () => {
     {
       role: 'ADMIN' as UserRole,
       email: 'admin@ecoia.demo',
-      name: 'Ricardo Torres',
+      name: 'Leandro Sotte',
       desc: 'Acesso irrestrito a configurações, usuários e auditoria',
     },
     {
       role: 'GESTOR' as UserRole,
       email: 'gestor@ecoia.demo',
-      name: 'Beatriz Carvalho',
+      name: 'Claudiney Batista',
       desc: 'Supervisão de metas, relatórios, dashboards e alertas',
     },
     {
       role: 'OPERACAO' as UserRole,
       email: 'operacao@ecoia.demo',
-      name: 'Lucas Prado',
+      name: 'Sonia Gomes',
       desc: 'Lançamentos manuais, pontos de medição e tratamento',
     },
     {
       role: 'FINANCEIRO' as UserRole,
       email: 'financeiro@ecoia.demo',
-      name: 'Amanda Rocha',
+      name: 'Igor Radae',
       desc: 'Gestão de tarifas, custos estimados e relatórios executivos',
     },
   ];

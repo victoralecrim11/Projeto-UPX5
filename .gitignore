@@ -12,3 +12,4 @@ coverage/
 
 # Arquivo temporário da escrita atômica do db.json
 backend/data/*.tmp
+.qoder

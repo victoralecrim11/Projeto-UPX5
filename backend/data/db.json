@@ -10,7 +10,7 @@
   "users": [
     {
       "id": "usr-admin",
-      "name": "Ricardo Torres",
+      "name": "Leandro Sotte",
       "email": "admin@ecoia.demo",
       "role": "ADMIN",
       "organizationId": "org-ecoia-01",
@@ -21,7 +21,7 @@
     },
     {
       "id": "usr-gestor",
-      "name": "Beatriz Carvalho",
+      "name": "Claudiney Batista",
       "email": "gestor@ecoia.demo",
       "role": "GESTOR",
       "organizationId": "org-ecoia-01",
@@ -33,7 +33,7 @@
     },
     {
       "id": "usr-operacao",
-      "name": "Lucas Prado",
+      "name": "Sonia Gomes",
       "email": "operacao@ecoia.demo",
       "role": "OPERACAO",
       "organizationId": "org-ecoia-01",
@@ -45,7 +45,7 @@
     },
     {
       "id": "usr-financeiro",
-      "name": "Amanda Rocha",
+      "name": "Igor Radae",
       "email": "financeiro@ecoia.demo",
       "role": "FINANCEIRO",
       "organizationId": "org-ecoia-01",
@@ -1187,7 +1187,7 @@
       "unitOfMeasure": "kWh",
       "origin": "MANUAL",
       "status": "NORMAL",
-      "userName": "Lucas Prado"
+      "userName": "Sonia Gomes"
     },
     {
       "id": "rec-pt-almoxarifado-10",
@@ -6987,7 +6987,7 @@
           "date": "2026-10-02T16:09:08.243Z",
           "title": "Alerta visualizado pelo operador",
           "description": "Aberto para consulta detalhada.",
-          "user": "Ricardo Torres"
+          "user": "Leandro Sotte"
         }
       ]
     },
@@ -7018,7 +7018,7 @@
           "date": "2026-09-24T18:15:00.000Z",
           "title": "Alerta visualizado",
           "description": "Visualizado no painel de monitoramento.",
-          "user": "Lucas Prado (Operação)"
+          "user": "Sonia Gomes (Operação)"
         },
         {
           "id": "tl-4",
@@ -7045,7 +7045,7 @@
       "tariffRateApplied": 0.72,
       "timestamp": "2026-09-27T23:15:00.000Z",
       "treatedAt": "2026-09-28T07:45:00.000Z",
-      "treatedBy": "Lucas Prado (Operação)",
+      "treatedBy": "Sonia Gomes (Operação)",
       "treatmentObservation": "Constatado que a iluminação de serviço dos setores 3 e 4 do galpão permaneceu acesa após manutenção preventiva no sábado. Procedida a conferência e reorientação da equipe de limpeza e segurança.",
       "treatmentAction": "Inspeção física realizada e ajuste de rotina de encerramento de turno.",
       "timeline": [
@@ -7060,21 +7060,21 @@
           "date": "2026-09-28T07:20:00.000Z",
           "title": "Visualizado pela equipe de plantão",
           "description": "Identificado durante checagem matinal de abertura.",
-          "user": "Lucas Prado"
+          "user": "Sonia Gomes"
         },
         {
           "id": "tl-7",
           "date": "2026-09-28T07:30:00.000Z",
           "title": "Investigação em campo realizada",
           "description": "Confirmado conjunto de luminárias esquecidas acesas.",
-          "user": "Lucas Prado"
+          "user": "Sonia Gomes"
         },
         {
           "id": "tl-8",
           "date": "2026-09-28T07:45:00.000Z",
           "title": "Alerta marcado como tratado",
           "description": "Ocorrência encerrada e registrada no log de auditoria.",
-          "user": "Lucas Prado"
+          "user": "Sonia Gomes"
         }
       ]
     }
@@ -7221,7 +7221,7 @@
       "id": "aud-01",
       "organizationId": "org-ecoia-01",
       "timestamp": "2026-09-28T07:45:00.000Z",
-      "userName": "Lucas Prado",
+      "userName": "Sonia Gomes",
       "userRole": "OPERACAO",
       "action": "Tratamento de Alerta de Energia",
       "entity": "EnergyAlert",
@@ -7234,7 +7234,7 @@
       "id": "aud-02",
       "organizationId": "org-ecoia-01",
       "timestamp": "2026-09-20T11:20:00.000Z",
-      "userName": "Ricardo Torres",
+      "userName": "Leandro Sotte",
       "userRole": "ADMIN",
       "action": "Atualização de Limiar de Anomalia",
       "entity": "ThresholdConfig",
@@ -7247,7 +7247,7 @@
       "id": "aud-03",
       "organizationId": "org-ecoia-01",
       "timestamp": "2026-09-15T09:30:00.000Z",
-      "userName": "Amanda Rocha",
+      "userName": "Igor Radae",
       "userRole": "FINANCEIRO",
       "action": "Atualização de Parâmetro Tarifário",
       "entity": "EnergyTariff",
@@ -7260,7 +7260,7 @@
       "id": "aud-04",
       "organizationId": "org-ecoia-01",
       "timestamp": "2026-09-10T14:15:00.000Z",
-      "userName": "Lucas Prado",
+      "userName": "Sonia Gomes",
       "userRole": "OPERACAO",
       "action": "Inserção Manual de Registro de Consumo",
       "entity": "ConsumptionRecord",
